@@ -44,19 +44,17 @@ public class UserMealsUtil {
     public static void main(String[] args) throws RunnerException {
 
 
-        Options options = new OptionsBuilder()
+       /* Options options = new OptionsBuilder()
                 .include(UserMealsUtil.class.getSimpleName()).forks(1).build();
 
-        new Runner(options).run();
+        new Runner(options).run();*/
 
 
         List<UserMealWithExceed> list = getFilteredWithExceeded2(mealList, LocalTime.of(10, 30), LocalTime.of(18, 0), 2000);
 //        .toLocalDate();
 //        .toLocalTime();
 
-
-      /*  for (UserMealWithExceed u : list)
-            System.out.println(u);*/
+        list.forEach(System.out::println);
 
     }
 
@@ -74,22 +72,15 @@ public class UserMealsUtil {
         Map<LocalDate, Integer> caloriesInDay = new HashMap<>();
 
 
-        mealList.forEach(new Consumer<UserMeal>() {
-            public void accept(UserMeal u) {
-                caloriesInDay.merge(u.getDateTime().toLocalDate(), u.getCalories(), Integer::sum);
-            }
-        });
+        mealList.forEach(u -> {caloriesInDay.merge(u.getDateTime().toLocalDate(), u.getCalories(), Integer::sum);});
 
         List<UserMealWithExceed> listMealWithExceed = new ArrayList<>();
 
-        mealList.forEach(new Consumer<UserMeal>() {
-            public void accept(UserMeal u) {
+        mealList.forEach(u -> {
                 if (TimeUtil.isBetween(u.getDateTime().toLocalTime(), startTime, endTime)) {
                     int calories = caloriesInDay.get(u.getDateTime().toLocalDate());
                     boolean exceed = calories > caloriesPerDay;
-                    listMealWithExceed.add(new UserMealWithExceed(u.getDateTime(), u.getDescription(), u.getCalories(), exceed));
-                }
-            }
+                    listMealWithExceed.add(new UserMealWithExceed(u.getDateTime(), u.getDescription(), u.getCalories(), exceed));}
         });
 
         return listMealWithExceed;
