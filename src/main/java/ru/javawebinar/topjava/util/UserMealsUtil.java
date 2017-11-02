@@ -71,7 +71,6 @@ public class UserMealsUtil {
 
         Map<LocalDate, Integer> caloriesInDay = new HashMap<>();
 
-
         mealList.forEach(u -> {caloriesInDay.merge(u.getDateTime().toLocalDate(), u.getCalories(), Integer::sum);});
 
         List<UserMealWithExceed> listMealWithExceed = new ArrayList<>();
