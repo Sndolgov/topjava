@@ -3,24 +3,17 @@ package ru.javawebinar.topjava.db;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by Сергей on 04.11.2017.
+ * Created by Сергей on 05.11.2017.
  */
-public class MealDataBase {
-    private static List <Meal> mealList = Arrays.asList(
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
-    );
-
-    public static List<Meal> getMealList() {
-        return mealList;
-    }
+public interface MealDataBase {
+    List<Meal> getMealList();
+    void delete(int id);
+    Meal getById(int id);
+    void update (Meal meal);
+    int getNewId();
 }
