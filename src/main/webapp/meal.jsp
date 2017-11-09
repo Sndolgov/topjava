@@ -9,7 +9,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
@@ -35,9 +34,6 @@
             <th width="150">id</th>
             <td><input type="text" name="id" value="${meal.id}"/></td>
         </tr>
-
-        Дата/Время:
-        <input name="dateTime" type="datetime-local" value="${meal.dateTime}" /> <br/>
 
         <tr align="left">
             <th>Дата и время</th>

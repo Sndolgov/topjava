@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by Сергей on 05.11.2017.
  */
 public interface MealDataBase {
-    List<Meal> getMealList();
+    List<Meal> getList();
     void delete(int id);
     Meal getById(int id);
     void update (Meal meal);
-    int getNewId();
+    void creat (Meal meal);
 }

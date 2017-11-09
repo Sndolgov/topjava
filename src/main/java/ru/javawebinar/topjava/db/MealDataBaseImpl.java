@@ -35,7 +35,7 @@ public class MealDataBaseImpl implements MealDataBase {
 
 
     @Override
-    public List<Meal> getMealList() {
+    public List<Meal> getList() {
         return new ArrayList<>(mealMap.values());
     }
 
@@ -57,7 +57,7 @@ public class MealDataBaseImpl implements MealDataBase {
     }
 
     @Override
-    public int getNewId() {
-        return idCount.getAndIncrement();
+    public void creat(Meal meal) {
+        mealMap.put(idCount.get(), new Meal(idCount.getAndIncrement(), meal.getDateTime(), meal.getDescription(), meal.getCalories()));
     }
 }

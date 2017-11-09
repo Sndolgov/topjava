@@ -5,9 +5,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -22,7 +20,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class MealsUtil {
     public static void main(String[] args) {
-        List<Meal> meals = MealDataBaseImpl.repository.getMealList();
+     //   List<Meal> meals = MealDataBaseImpl.repository.getList();
        // System.out.println(meals);
 
 
