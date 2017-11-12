@@ -30,7 +30,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userRole = request.getParameter("userRole");
-        if (userRole.equals("User"))
+        if (userRole.contains("User"))
             AuthorizedUser.setId(1);
         else AuthorizedUser.setId(2);
         response.sendRedirect("meals");
