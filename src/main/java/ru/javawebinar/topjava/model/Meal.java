@@ -9,7 +9,6 @@ import java.time.LocalTime;
  * 11.01.2015.
  */
 public class Meal extends AbstractBaseEntity {
-    private Integer id;
 
     private Integer userId;
 

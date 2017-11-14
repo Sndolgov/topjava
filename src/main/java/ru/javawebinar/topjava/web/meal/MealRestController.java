@@ -4,9 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -23,30 +28,36 @@ public class MealRestController {
         this.service = service;
     }
 
-    public Meal creat(Meal meal, int userId) {
+    public Meal creat(Meal meal) {
         log.info("creat meal");
         checkNew(meal);
-        return service.creat(meal, userId);
+        return service.creat(meal, AuthorizedUser.id());
     }
 
-    public void delete(int id, int userId) {
+    public void delete(int id) {
         log.info("delete meal");
-        service.delete(id, userId);
+        service.delete(id, AuthorizedUser.id());
     }
 
-    public Meal get(int id, int userId) {
+    public Meal get(int id) {
         log.info("get meal");
-        return service.get(id, userId);
+        return service.get(id, AuthorizedUser.id());
     }
 
-    public List<Meal> getAll(int userId) {
+    public List<MealWithExceed> getAll() {
         log.info("getAll meal");
-        return (List<Meal>) service.getAll(userId);
+        return MealsUtil.getWithExceeded(service.getAll(AuthorizedUser.id(), LocalDate.MIN, LocalDate.MAX), AuthorizedUser.getCaloriesPerDay());
     }
 
-    public void update(Meal meal, int id, int userId) {
+    public List<MealWithExceed> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        log.info("getFiltered meal");
+        System.out.println(MealsUtil.getFilteredWithExceeded(service.getAll(AuthorizedUser.id(), startDate, endDate), startTime, endTime, AuthorizedUser.getCaloriesPerDay()));
+        return MealsUtil.getFilteredWithExceeded(service.getAll(AuthorizedUser.id(), startDate, endDate), startTime, endTime, AuthorizedUser.getCaloriesPerDay());
+    }
+
+    public void update(Meal meal, int id) {
         log.info("update meal");
         assureIdConsistent(meal, id);
-        service.update(meal, userId);
+        service.update(meal, AuthorizedUser.id());
     }
 }

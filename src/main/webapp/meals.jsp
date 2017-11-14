@@ -18,20 +18,59 @@
 </head>
 <body>
 <section>
-    <h3><a href="index.html">Home</a></h3>
     <h2>Meals</h2>
+
+    <br>
+    <h3>Фильтр</h3>
+
+    <table>
+        <form method="post" action="meals?action=filter">
+
+            <tr>
+                <td>От даты</td>
+                <td><input type="date" value="${startDate}" name="startDate"></td>
+            </tr>
+            <tr>
+                <td>До даты</td>
+                <td><input type="date" value="${endDate}" name="endDate"></td>
+            </tr>
+            <tr>
+                <td>От времени</td>
+                <td><input type="time" value="${startTime}" name="startTime"></td>
+            </tr>
+            <tr>
+                <td>До времени</td>
+                <td><input type="time" value="${endTime}" name="endTime"></td>
+            </tr>
+            <tr>
+                <td><button>Поиск</button></td>
+            </tr>
+        </form>
+        <form>
+            <form action="/meals">
+                <tr>
+                    <td><button>Сброс</button></td>
+                </tr>
+            </form>
+        </form>
+    </table>
+
+    <br>
+    <br>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
+
+
     <table border="1" cellpadding="8" cellspacing="0">
 
         <thead>
         <tr>
+
             <th>Date</th>
             <th>Description</th>
             <th>Calories</th>
             <th></th>
             <th></th>
-            <th>User Id</th>
 
         </tr>
         </thead>

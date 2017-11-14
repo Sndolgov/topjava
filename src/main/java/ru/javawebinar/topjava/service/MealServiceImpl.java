@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Collection;
 
 @Service
 public class MealServiceImpl implements MealService {
@@ -33,8 +35,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
-        return (List<Meal>) repository.getAll(userId);
+    public Collection<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
+        return repository.getAll(userId, startDate, endDate);
     }
 
     @Override
