@@ -49,9 +49,8 @@ public class MealRestController {
         return MealsUtil.getWithExceeded(service.getAll(AuthorizedUser.id(), LocalDate.MIN, LocalDate.MAX), AuthorizedUser.getCaloriesPerDay());
     }
 
-    public List<MealWithExceed> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public List<MealWithExceed> getFiltredAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         log.info("getFiltered meal");
-        System.out.println(MealsUtil.getFilteredWithExceeded(service.getAll(AuthorizedUser.id(), startDate, endDate), startTime, endTime, AuthorizedUser.getCaloriesPerDay()));
         return MealsUtil.getFilteredWithExceeded(service.getAll(AuthorizedUser.id(), startDate, endDate), startTime, endTime, AuthorizedUser.getCaloriesPerDay());
     }
 
