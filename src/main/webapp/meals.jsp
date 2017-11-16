@@ -43,16 +43,16 @@
                 <td><input type="time" value="${endTime}" name="endTime"></td>
             </tr>
             <tr>
-                <td><button>Поиск</button></td>
-            </tr>
+                <td><button><img alt="" src="http://img1.ramapk.com/1/5e/b3538f_0.png" width="25" height="25" style="vertical-align:middle"/></button></td>
         </form>
         <form>
             <form action="/meals">
-                <tr>
-                    <td><button>Сброс</button></td>
-                </tr>
+                <td><button><img alt="" src="https://motorov.net/upload/medialibrary/0df/0dfebbdb0e09924a5cdf56e63caea431.png" width="25" height="25" style="vertical-align:middle"/></button></td>
             </form>
         </form>
+
+        </tr>
+
     </table>
 
     <br>
@@ -90,6 +90,8 @@
             </tr>
         </c:forEach>
     </table>
+
 </section>
+
 </body>
 </html>

@@ -2,20 +2,20 @@ package ru.javawebinar.topjava;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.util.DateTimeUtil;
+import ru.javawebinar.topjava.service.MealServiceImpl;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 public class SpringMain {
     public static void main(String[] args) {
+
 
 
         // java 7 Automatic resource management
@@ -23,6 +23,9 @@ public class SpringMain {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
+            MealServiceImpl mealService = appCtx.getBean(MealServiceImpl.class);
+            Collection <Meal> list = mealService.getAll(1, LocalDate.MIN, LocalDate.MAX);
+            System.out.println("List: "+list);
         }
     }
 }

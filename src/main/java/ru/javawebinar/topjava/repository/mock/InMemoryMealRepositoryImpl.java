@@ -23,14 +23,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
+
     {
-        MealsUtil.MEALS.forEach(meal ->
-                {
-                    if (meal.isNew())
-                        meal.setId(counter.incrementAndGet());
-                    repository.put(meal.getId(), meal);
-                }
-        );
+
+        MealsUtil.MEALS.forEach(meal -> this.save(meal, meal.getUserId()));
     }
 
     @Override
@@ -40,41 +36,38 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
             meal.setUserId(userId);
             repository.put(meal.getId(), meal);
             return meal;
-        } else if (meal.getUserId() == userId) {
+        } else if (repository.get(meal.getId()).getUserId() == userId) {
+            meal.setUserId(userId);
             repository.put(meal.getId(), meal);
             return meal;
         }
         return null;
-
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        if (repository.get(id) != null && repository.get(id).getUserId() == userId) {
-            repository.remove(id);
-            return true;
-        }
-        return false;
+       if (get(id, userId)!=null) {
+           repository.remove(id);
+           return true;
+       }
+       return false;
+
     }
 
     @Override
     public Meal get(int id, int userId) {
-        if (repository.get(id) != null && repository.get(id).getUserId() == userId)
-            return repository.get(id);
-        else return null;
-    }
+        Meal meal = repository.get(id);
+        return meal != null && meal.getUserId() == userId?meal:null;
+        }
 
     @Override
     public Collection<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
         return repository.values().stream()
                 .filter(meal -> meal.getUserId()==userId)
                 .filter(meal -> DateTimeUtil.isBetween(meal.getDateTime().toLocalDate(), startDate, endDate))
-                .sorted(Comparator.comparing(Meal::getDateTime))
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
-
-
 
 }
 
