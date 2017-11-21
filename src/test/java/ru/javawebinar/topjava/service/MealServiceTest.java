@@ -10,11 +10,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 
-import static org.junit.Assert.*;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ContextConfiguration({
@@ -36,15 +33,15 @@ public class MealServiceTest {
 
     @Test
     public void get() throws Exception {
+        Meal meal = service.get(100002, USER_ID);
+        assertMatchM(meal, MEAL1);
+
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(100002, 100000);
-        System.out.println(service.getAll(USER_ID).size());
-        System.out.println(service.get(100003, USER_ID));
-
-        System.out.println(service.getAll(USER_ID));
+        service.delete(MEAL1.getId(), USER_ID);
+        assertMatchM(service.getAll(USER_ID),  MEAL2,MEAL3,MEAL4,MEAL5,MEAL6);
     }
 
     @Test
@@ -61,10 +58,7 @@ public class MealServiceTest {
 
     @Test
     public void create() throws Exception {
-        Meal meal = new Meal( LocalDateTime.of(2017, Month.MAY, 31, 20, 0), "Ужин", 510);
-        System.out.println(service.getAll(ADMIN_ID).size());
-        service.create(meal, 100001);
-        System.out.println(service.getAll(ADMIN_ID).size());
+
     }
 
 }
