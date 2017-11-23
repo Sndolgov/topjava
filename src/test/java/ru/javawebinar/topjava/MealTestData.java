@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava;
 
+
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ public class MealTestData {
 
 
     public static void assertMatchM(Meal actual, Meal expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     public static void assertMatchM(Iterable<Meal> actual, Meal... expected) {
@@ -31,6 +32,6 @@ public class MealTestData {
     }
 
     public static void assertMatchM(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).usingFieldByFieldElementComparator().isEqualTo(expected);
     }
 }
