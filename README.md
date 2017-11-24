@@ -1,7 +1,7 @@
 Java Enterprise Online Project 
 ===============================
 
-![topjava_structure](https://user-images.githubusercontent.com/13649199/27433714-8294e6fe-575e-11e7-9c41-7f6e16c5ebe5.jpg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/576372019dbe4f72b5f52e3ea6f0cca4)](https://www.codacy.com/app/Sndolgov/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Sndolgov/topjava&amp;utm_campaign=Badge_Grade)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a17fa3d0fb24f2125872952/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a17fa3d0fb24f2125872952)
 
 
