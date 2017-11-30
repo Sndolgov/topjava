@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -23,9 +24,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
@@ -53,28 +54,21 @@ public class MealServiceTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
-    public TestWatcher watcher = new TestWatcher() {
-        private long start, end;
+    public Stopwatch stopwatch = new Stopwatch() {
 
 
         @Override
-        protected void starting(Description description) {
-            start = System.currentTimeMillis();
-
-        }
-
-        @Override
-        protected void finished(Description description) {
-            end = System.currentTimeMillis();
-            String nameTime = name.getMethodName()+" - "+(end-start);
+        protected void finished(long nanos, Description description) {
+            String nameTime = name.getMethodName() + " - " + TimeUnit.NANOSECONDS.toMicros(nanos)+" microseconds";
             testsNamesAndTimes.add(nameTime);
             log.info(nameTime);
         }
     };
 
+
     @AfterClass
     public static void after() {
-        testsNamesAndTimes.forEach(System.out::println);
+        testsNamesAndTimes.forEach(log::info);
     }
 
     @Autowired
