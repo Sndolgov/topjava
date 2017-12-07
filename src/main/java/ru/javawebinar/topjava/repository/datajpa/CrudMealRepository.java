@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +15,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Modifying
     @Transactional
-    @Query (name = Meal.DELETE)
+    @Query(name = Meal.DELETE)
     int delete(@Param("id") int id, @Param("userId") int userId);
 
 
@@ -39,6 +38,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query(name = Meal.GET_BETWEEN)
     List<Meal> getBetween(@Param("userId") int userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
-
+    @Modifying
+    @Query("SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id ")
+    List<Meal> getWithUser(@Param("id") int id);
 
 }
