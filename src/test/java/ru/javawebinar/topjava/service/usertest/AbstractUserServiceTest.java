@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.user;
+package ru.javawebinar.topjava.service.usertest;
 
 import org.junit.AfterClass;
 import org.junit.Before;
