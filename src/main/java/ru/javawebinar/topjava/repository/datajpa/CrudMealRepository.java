@@ -14,18 +14,13 @@ import java.util.Optional;
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Modifying
-    @Transactional
     @Query(name = Meal.DELETE)
     int delete(@Param("id") int id, @Param("userId") int userId);
 
 
     @Override
-    @Transactional
     Meal save(Meal meal);
 
-    /*@Modifying
-    @Query ("SELECT m FROM Meal m WHERE m.user.id=:userId AND m.id=:id")
-    Meal get(@Param("id") int id, @Param("userId") int userId);*/
 
     @Override
     Optional<Meal> findById(Integer integer);
@@ -39,7 +34,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     List<Meal> getBetween(@Param("userId") int userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     @Modifying
-    @Query("SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id ")
-    List<Meal> getWithUser(@Param("id") int id);
+    @Query("SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id AND m.user.id=:userId")
+    List<Meal> getWithUser(@Param("id") int id, @Param("userId") int userId);
 
 }

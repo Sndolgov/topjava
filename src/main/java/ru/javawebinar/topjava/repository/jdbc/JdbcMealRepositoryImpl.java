@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
@@ -20,40 +21,52 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public class JdbcMealRepositoryImpl implements MealRepository {
+public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
 
     private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    private final JdbcTemplate jdbcTemplate;
-
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    private final SimpleJdbcInsert insertMeal;
-
-    private boolean isHsqldbProfile = false;
+    @Autowired
+    private  JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcMealRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    private  NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private  SimpleJdbcInsert insertMeal;
+
+     abstract T returnDateTime(LocalDateTime dateTime);
+
+    @Autowired
+    private void setDataSource(DataSource dataSource) {
         this.insertMeal = new SimpleJdbcInsert(dataSource)
                 .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
-
-        this.jdbcTemplate = jdbcTemplate;
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
 
 
+    @Repository
+    @Profile(Profiles.POSTGRES_DB)
+    public static class JdbcMealRepositoryImplPostgreSQL extends JdbcMealRepositoryImpl<LocalDateTime>{
 
-    @Bean
-    @Profile("hsqldb")
-    private boolean is(){
-        return isHsqldbProfile=true;
+        @Override
+        LocalDateTime returnDateTime(LocalDateTime dateTime) {
+            return dateTime;
+        }
     }
 
-    private Object returnDateTime(LocalDateTime localDateTime) {
-        return isHsqldbProfile?Timestamp.valueOf(localDateTime):localDateTime;
+    @Repository
+    @Profile(Profiles.HSQL_DB)
+    public static class JdbcMealRepositoryImplHSQLDB extends JdbcMealRepositoryImpl<Timestamp>{
+
+
+        @Override
+        Timestamp returnDateTime(LocalDateTime dateTime) {
+            return Timestamp.valueOf(dateTime);
+        }
     }
+
+
+
 
     @Override
     public Meal save(Meal meal, int userId) {
@@ -105,7 +118,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Meal getWithUser(int id) {
+    public Meal getWithUser(int id, int userId) {
         throw new UnsupportedOperationException();
     }
 }

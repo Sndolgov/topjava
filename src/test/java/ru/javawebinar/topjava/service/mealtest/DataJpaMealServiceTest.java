@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import static ru.javawebinar.topjava.MealTestData.MEAL1;
 import static ru.javawebinar.topjava.MealTestData.MEAL1_ID;
 import static ru.javawebinar.topjava.MealTestData.assertMatch;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
@@ -24,14 +25,14 @@ public class DataJpaMealServiceTest extends AbstractMealServiceTest {
 
     @Test
     public void testGetWithUser(){
-        Meal meal = mealService.getWithUser(MEAL1_ID);
+        Meal meal = mealService.getWithUser(MEAL1_ID, USER_ID);
         assertMatch(meal, MEAL1);
         UserTestData.assertMatch(meal.getUser(), USER);
     }
 
     @Test (expected = NotFoundException.class)
     public void testGetWithUserNotFound(){
-       mealService.getWithUser(USER_ID);
+       mealService.getWithUser(ADMIN_ID, USER_ID);
     }
 
 }
