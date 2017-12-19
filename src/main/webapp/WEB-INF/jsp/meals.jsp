@@ -6,6 +6,16 @@
 <head>
     <title>Calories management</title>
     <link rel="stylesheet" href="css/style.css">
+
+    <style type="text/css">
+        .normal {
+            color: green;
+        }
+
+        .exceeded {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <section>
