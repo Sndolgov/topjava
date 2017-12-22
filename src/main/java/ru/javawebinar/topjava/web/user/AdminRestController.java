@@ -57,4 +57,9 @@ public class AdminRestController extends AbstractUserController {
     public User getByMail(@RequestParam("email") String email) {
         return super.getByMail(email);
     }
+
+    @GetMapping(value = "/text")
+    public String getText(){
+        return "Русский текст";
+    }
 }
