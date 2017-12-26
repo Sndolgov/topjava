@@ -1,7 +1,10 @@
 package ru.javawebinar.topjava;
 
+import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -43,5 +46,9 @@ public class MealTestData {
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
+    }
+
+    public static Meal fromJsonAction(ResultActions action) throws UnsupportedEncodingException {
+        return JsonUtil.readValue(action.andReturn().getResponse().getContentAsString(), Meal.class);
     }
 }
