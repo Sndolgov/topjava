@@ -94,7 +94,7 @@
             </thead>
             <c:forEach items="${meals}" var="meal">
                 <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
-                <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+                <tr class="${meal.exceed ? 'exceeded' : 'normal'}" id="${meal.id}">
                     <td>
                             <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
                             <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
@@ -106,7 +106,7 @@
                         <%--<td><a href="meals/update?id=${meal.id}"><spring:message code="common.update"/></a></td>
                         <td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>--%>
                     <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-                    <td><a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                    <td><a class="delete" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -125,7 +125,7 @@
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="dateTime" class="control-label col-xs-3">Дата/Время</label>
+                        <label for="dateTime" class="control-label col-xs-3"><spring:message code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
                             <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="control-label col-xs-3">Описание</label>
+                        <label for="description" class="control-label col-xs-3"><spring:message code="meal.description"/></label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="description" name="description"
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="calories" class="control-label col-xs-3">Калории</label>
+                        <label for="calories" class="control-label col-xs-3"><spring:message code="meal.calories"/></label>
 
                         <div class="col-xs-9">
                             <input type="number" class="form-control" id="calories" name="calories" placeholder="1000">
