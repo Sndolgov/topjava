@@ -25,7 +25,7 @@
                                         code="meal.startDate"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="startDate" name="startDate"
+                                    <input type="date" class="form-control" id="startDate" name="startDate"
                                            value="${param.startDate}">
                                 </div>
 
@@ -33,7 +33,7 @@
                                         code="meal.startTime"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="startTime" name="startTime"
+                                    <input type="time" class="form-control" id="startTime" name="startTime"
                                            value="${param.startTime}">
                                 </div>
 
@@ -47,7 +47,7 @@
                                             code="meal.endDate"/>:</label>
 
                                     <div class="col-sm-3">
-                                        <input class="form-control" id="endDate" name="endDate"
+                                        <input type="date" class="form-control" id="endDate" name="endDate"
                                                value="${param.endDate}">
                                     </div>
 
@@ -55,7 +55,7 @@
                                             code="meal.endTime"/>:</label>
 
                                     <div class="col-sm-3">
-                                        <input class="form-control" id="endTime" name="endTime"
+                                        <input type="time" class="form-control" id="endTime" name="endTime"
                                                value="${param.endTime}">
                                     </div>
                                 </div>

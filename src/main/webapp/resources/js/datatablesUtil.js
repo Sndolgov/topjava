@@ -8,6 +8,16 @@ function makeEditable() {
         return false;
     });
 
+    $('#checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            alert('Включен');
+        }
+        else {
+            alert('Выключен');
+        }
+        changeStatus();
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -32,11 +42,6 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.clear().rows.add(data).draw();
-    });
-}
 
 function save() {
     var form = $("#detailsForm");

@@ -2,11 +2,24 @@ var ajaxUrl = "ajax/profile/meals/";
 var datatableApi;
 
 
-/*function updateTable() {
+function updateTable() {
+    var form = $("#filter");
+    $.ajax({
+        type: "GET",
+        url: ajaxUrl+"filter",
+        data: form.serialize(),
+        success: function (data) {
+            datatableApi.clear().rows.add(data).draw();
+        }
+    });
+}
+
+function clearFilter() {
+    $("#filter").find(":input").val("");
     $.get(ajaxUrl, function (data) {
         datatableApi.clear().rows.add(data).draw();
     });
-}*/
+}
 
 // $(document).ready(function () {
 $(function () {
