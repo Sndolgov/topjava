@@ -9,11 +9,10 @@ function updateTable() {
     });
 }
 
-function changeStatus() {
-    var form = $("#checkbox").is(':checked');
+function changeStatus(id, enabled) {
     $.ajax({
-        url: ajaxUrl + id,
-        type: "PUT",
+        url: ajaxUrl + id+"?enabled="+enabled,
+        type: "POST",
         success: function () {
             updateTable();
             successNoty("Status changed");

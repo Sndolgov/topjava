@@ -8,15 +8,6 @@ function makeEditable() {
         return false;
     });
 
-    $('#checkbox').click(function () {
-        if ($(this).is(':checked')) {
-            alert('Включен');
-        }
-        else {
-            alert('Выключен');
-        }
-        changeStatus();
-    });
 
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);

@@ -106,7 +106,7 @@
                         <%--<td><a href="meals/update?id=${meal.id}"><spring:message code="common.update"/></a></td>
                         <td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>--%>
                     <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-                    <td><a class="delete" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                    <td><a class="delete" id="${meal.id}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
                 </tr>
             </c:forEach>
         </table>

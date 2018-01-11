@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -33,5 +34,11 @@ public class AdminAjaxController extends AbstractUserController {
         if (user.isNew()) {
             super.create(user);
         }
+    }
+
+
+    @PostMapping("/{id}")
+    public void changeEnabled(@PathVariable("id") Integer id, @RequestParam("enabled") boolean enabled) {
+        super.changeEnabled(id, !enabled);
     }
 }
