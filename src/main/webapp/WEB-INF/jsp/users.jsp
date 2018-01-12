@@ -5,6 +5,16 @@
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
+
+<style>
+     .enable{}
+
+    .disable{
+        color: gray;
+        font-style: oblique;
+    }
+</style>
+
 <body>
 <script type="text/javascript" src="resources/js/datatablesUtil.js" defer></script>
 <script type="text/javascript" src="resources/js/userDatatables.js" defer></script>
@@ -28,20 +38,20 @@
                 <th><spring:message code="user.registered"/></th>
                 <th></th>
                 <th></th>
-                <th></th>
             </tr>
             </thead>
             <c:forEach items="${users}" var="user">
                 <jsp:useBean id="user" scope="page" type="ru.javawebinar.topjava.model.User"/>
-                <tr id="${user.id}">
+                <tr class="${user.enabled ? 'enable' : 'disable'}" id="${user.id}">
                     <td><c:out value="${user.name}"/></td>
                     <td><a href="mailto:${user.email}">${user.email}</a></td>
                     <td>${user.roles}</td>
-                    <td><input type="checkbox" <c:if test="${user.enabled}">checked</c:if> onclick="changeStatus(${user.id}, ${user.enabled})"/></td>
+                    <td><input type="checkbox"
+                               <c:if test="${user.enabled}">checked</c:if>
+                               onclick="changeEnabled(${user.id},${user.enabled})"/></td>
                     <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
                     <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-                    <td><a class="delete" id="${user.id}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
-                    <td>${user.enabled}</td>
+                    <td><a class="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -63,7 +73,8 @@
                         <label for="name" class="control-label col-xs-3"><spring:message code="user.name"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="<spring:message code="user.name"/>">
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="<spring:message code="user.name"/>">
                         </div>
                     </div>
 
@@ -71,15 +82,18 @@
                         <label for="email" class="control-label col-xs-3"><spring:message code="user.email"/></label>
 
                         <div class="col-xs-9">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="<spring:message code="user.email"/>">
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="<spring:message code="user.email"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label col-xs-3"><spring:message code="user.password"/></label>
+                        <label for="password" class="control-label col-xs-3"><spring:message
+                                code="user.password"/></label>
 
                         <div class="col-xs-9">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="user.password"/>">
+                            <input type="password" class="form-control" id="password" name="password"
+                                   placeholder="<spring:message code="user.password"/>">
                         </div>
                     </div>
 

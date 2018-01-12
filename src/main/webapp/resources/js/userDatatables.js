@@ -9,13 +9,13 @@ function updateTable() {
     });
 }
 
-function changeStatus(id, enabled) {
+function changeEnabled(id ,enabled) {
     $.ajax({
-        url: ajaxUrl + id+"?enabled="+enabled,
         type: "POST",
+        url: ajaxUrl+id+"?enabled="+!enabled,
         success: function () {
             updateTable();
-            successNoty("Status changed");
+            successNoty("Enable changed");
         }
     });
 }
@@ -54,7 +54,15 @@ $(function () {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "createdRow": function (row, data, index) {
+            var enabled=data['enabled'].toString();
+            if ((enabled==="false"||enabled.length>5&&enabled.indexOf("checked") === -1)) {
+                $(row).addClass('disabled');
+            }
+        }
+
     });
+
     makeEditable();
 });
