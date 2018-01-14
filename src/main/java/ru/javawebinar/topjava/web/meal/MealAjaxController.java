@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.MealsUtil.creatMealFromMealTo;
+import static ru.javawebinar.topjava.util.MealsUtil.updateMealFromTo;
+
 @RestController
 @RequestMapping(value = "/ajax/profile/meals")
 public class MealAjaxController extends AbstractMealController {
@@ -29,13 +32,19 @@ public class MealAjaxController extends AbstractMealController {
         super.delete(id);
     }
 
+    @Override
+    @GetMapping(value = "/{id}")
+    public Meal get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
+
 
     @PostMapping
     public void createOrUpdate(MealTo mealTo) {
-        Meal meal = MealsUtil.creatMealFromMealTo(mealTo);
-        if (meal.isNew()) {
-            super.create(meal);
+        if (mealTo.isNew()) {
+            super.create(creatMealFromMealTo(mealTo));
         }
+        else super.update(mealTo, mealTo.getId());
     }
 
     @Override

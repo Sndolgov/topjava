@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
+import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDateTime;
 
 /**
  * GKislin
@@ -46,8 +47,14 @@ public class MealsUtil {
     }
 
     public static Meal creatMealFromMealTo (MealTo mealTo){
-        LocalDateTime localDateTime = LocalDateTime.parse(mealTo.getDateTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return new Meal(mealTo.getId(), localDateTime, mealTo.getDescription(), mealTo.getCalories());
+        return new Meal(mealTo.getId(), parseLocalDateTime(mealTo.getDateTime()), mealTo.getDescription(), mealTo.getCalories());
+    }
+
+    public static Meal updateMealFromTo (Meal meal, MealTo mealTo){
+        meal.setDateTime(parseLocalDateTime(mealTo.getDateTime()));
+        meal.setDescription(mealTo.getDescription());
+        meal.setCalories(mealTo.getCalories());
+        return meal;
     }
 
 /*
