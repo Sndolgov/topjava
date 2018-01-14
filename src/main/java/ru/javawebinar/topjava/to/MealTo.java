@@ -16,13 +16,14 @@ import java.time.format.DateTimeFormatter;
  */
 public class MealTo extends BaseTo{
 
-    @NotNull
+    @NotBlank
     private String dateTime;
 
     @NotBlank
-    @Size(min = 2, max = 120, message = "length must between 2 and 120 characters")
+    @Size(min = 2, max = 120, message = "length must between 2 and 120 characters!!!")
     private String description;
 
+    @NotNull
     @Range(min = 10, max = 5000, message = "value must between 10 and 5000 characters")
     private Integer calories;
 
