@@ -8,13 +8,15 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Сергей on 14.01.2018.
  */
-public class MealTo extends BaseTo{
+public class MealTo extends BaseTo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @NotBlank
     private String dateTime;

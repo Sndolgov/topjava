@@ -11,7 +11,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.MealsUtil.updateMealFromTo;
+import static ru.javawebinar.topjava.util.MealsUtil.updateFromTo;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -54,7 +54,7 @@ public class MealServiceImpl implements MealService {
     @Override
     public Meal update(MealTo mealTo, int userId) throws NotFoundException {
         Meal meal = repository.get(mealTo.getId(), userId);
-        return checkNotFoundWithId(repository.save(updateMealFromTo(meal, mealTo), userId), mealTo.getId());
+        return checkNotFoundWithId(repository.save(updateFromTo(meal, mealTo), userId), mealTo.getId());
     }
 
     @Override
