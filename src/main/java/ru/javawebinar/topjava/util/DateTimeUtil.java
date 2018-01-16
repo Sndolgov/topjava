@@ -33,6 +33,6 @@ public class DateTimeUtil {
     }
 
     public static LocalDateTime parseLocalDateTime (String dateTime){
-        return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return LocalDateTime.parse(dateTime, DATE_TIME_FORMATTER);
     }
 }
