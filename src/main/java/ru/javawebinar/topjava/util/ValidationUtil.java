@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -58,9 +59,10 @@ public class ValidationUtil {
         return result;
     }
 
-    public static ResponseEntity<String> getErrorResponse(BindingResult result) {
+    public static String getDefoultFildes(BindException e) {
         StringJoiner joiner = new StringJoiner("<br>");
-        result.getFieldErrors().forEach(
+        joiner.add(e.getClass().getName()+": ");
+        e.getFieldErrors().forEach(
                 fe -> {
                     String msg = fe.getDefaultMessage();
                     if (!msg.startsWith(fe.getField())) {
@@ -68,6 +70,6 @@ public class ValidationUtil {
                     }
                     joiner.add(msg);
                 });
-        return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
+        return joiner.toString();
     }
 }

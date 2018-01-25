@@ -6,10 +6,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.util.ValidationUtil;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.ErrorType;
@@ -21,6 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 409
+    @ExceptionHandler(BindException.class)
+    public ErrorInfo bindError(HttpServletRequest req, BindException e) {
+        String cause = ValidationUtil.getDefoultFildes(e);
+        return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, cause);
+
+    }
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -50,4 +56,6 @@ public class ExceptionInfoHandler {
         }
         return new ErrorInfo(req.getRequestURL(), errorType, rootCause.toString());
     }
+
+
 }
