@@ -1,9 +1,8 @@
 package ru.javawebinar.topjava.util;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -59,17 +58,25 @@ public class ValidationUtil {
         return result;
     }
 
-    public static String getDefoultFildes(BindException e) {
+    public static <T extends Exception> String getDefoultFildes(T e) {
         StringJoiner joiner = new StringJoiner("<br>");
-        joiner.add(e.getClass().getName()+": ");
-        e.getFieldErrors().forEach(
-                fe -> {
-                    String msg = fe.getDefaultMessage();
-                    if (!msg.startsWith(fe.getField())) {
-                        msg = fe.getField() + ' ' + msg;
-                    }
-                    joiner.add(msg);
-                });
+        if (e instanceof BindException || e instanceof MethodArgumentNotValidException) {
+            BindingResult result;
+            if (e instanceof BindException)
+                result = ((BindException) e).getBindingResult();
+            else
+                result = ((MethodArgumentNotValidException) e).getBindingResult();
+            joiner.add(e.getClass().getName() + ": ");
+            result.getFieldErrors().forEach(
+                    fe -> {
+                        String msg = fe.getDefaultMessage();
+                        if (!msg.startsWith(fe.getField())) {
+                            msg = fe.getField() + ' ' + msg;
+                        }
+                        joiner.add(msg);
+                    });
+        }
         return joiner.toString();
     }
+
 }
