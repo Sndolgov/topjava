@@ -3,7 +3,11 @@ package ru.javawebinar.topjava.util;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.HasId;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.StringJoiner;
@@ -79,4 +83,24 @@ public class ValidationUtil {
         return joiner.toString();
     }
 
+    public static boolean isCanChange(UserTo userTo, UserService userService) {
+        Integer userToId = userTo.getId();
+        Integer userId = null;
+        Integer authorizedUserId = null;
+        try {
+            userId = userService.getByEmail(userTo.getEmail()).getId();
+        } catch (Exception e) {
+        }
+        try {
+            authorizedUserId = AuthorizedUser.id();
+        } catch (Exception e) {
+        }
+
+        if (userToId != null) {
+            if (!userToId.equals(userId))
+                return false;
+        } else if (userId != null)
+            return false;
+        return true;
+    }
 }

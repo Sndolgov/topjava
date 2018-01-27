@@ -89,10 +89,23 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(REST_URL + USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updated)))
+                .content(UserTestData.jsonWithPassword(updated, "newPass")))
                 .andExpect(status().isOk());
 
         assertMatch(userService.get(USER_ID), updated);
+    }
+
+    @Test
+    public void testUpdateError() throws Exception {
+        User updated = new User(USER);
+        updated.setName("UpdatedName");
+        updated.setEmail(ADMIN.getEmail());
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(UserTestData.jsonWithPassword(updated, "newPass")))
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -109,6 +122,16 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, expected);
         assertMatch(userService.getAll(), ADMIN, expected, USER);
+    }
+
+    @Test
+    public void testCreateError() throws Exception {
+        User expected = new User(null, "New", ADMIN.getEmail(), "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(UserTestData.jsonWithPassword(expected, "newPass")))
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

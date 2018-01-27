@@ -103,6 +103,7 @@ public class User extends AbstractNamedEntity {
 
     public void setPassword(String password) {
         this.password = password;
+
     }
 
     public Date getRegistered() {
