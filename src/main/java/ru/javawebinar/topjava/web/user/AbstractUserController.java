@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.MealFormValidator;
 import ru.javawebinar.topjava.util.UserFormValidator;
 
 import java.util.List;

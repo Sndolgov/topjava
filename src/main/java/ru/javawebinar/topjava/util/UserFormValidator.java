@@ -38,4 +38,5 @@ public class UserFormValidator implements Validator {
         if (!isCanChange(userTo, userService))
             errors.rejectValue("email", "пользователь с таким email уже зарегистрирован", "пользователь с таким email уже зарегистрирован");
     }
+
 }

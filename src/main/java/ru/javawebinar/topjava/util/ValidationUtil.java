@@ -5,11 +5,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.HasId;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class ValidationUtil {
@@ -86,13 +90,8 @@ public class ValidationUtil {
     public static boolean isCanChange(UserTo userTo, UserService userService) {
         Integer userToId = userTo.getId();
         Integer userId = null;
-        Integer authorizedUserId = null;
         try {
             userId = userService.getByEmail(userTo.getEmail()).getId();
-        } catch (Exception e) {
-        }
-        try {
-            authorizedUserId = AuthorizedUser.id();
         } catch (Exception e) {
         }
 
@@ -101,6 +100,19 @@ public class ValidationUtil {
                 return false;
         } else if (userId != null)
             return false;
+        return true;
+    }
+
+    public static boolean isCanSaveTime(Meal validateMeal, MealService mealService) {
+        LocalDateTime ldt = validateMeal.getDateTime();
+        List<Meal> meals = mealService.getAll(AuthorizedUser.id());
+
+        for (Meal meal : meals) {
+            if (ldt.equals(meal.getDateTime())) {
+                if (validateMeal.getId()==null||!meal.getId().equals(validateMeal.getId()))
+                    return false;
+            }
+        }
         return true;
     }
 }
