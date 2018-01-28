@@ -6,8 +6,8 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <a href="meals" class="navbar-brand"><spring:message code="app.title"/></a>
-
         <div class="collapse navbar-collapse">
+            <jsp:include page="lang.jsp"/>
             <form:form class="navbar-form navbar-right" action="logout" method="post">
                 <sec:authorize access="isAuthenticated()">
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
