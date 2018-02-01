@@ -66,33 +66,14 @@ public class ValidationUtil {
         return result;
     }
 
-    public static <T extends Exception> String getDefoultFildes(T e) {
-        StringJoiner joiner = new StringJoiner("<br>");
-        if (e instanceof BindException || e instanceof MethodArgumentNotValidException) {
-            BindingResult result;
-            if (e instanceof BindException)
-                result = ((BindException) e).getBindingResult();
-            else
-                result = ((MethodArgumentNotValidException) e).getBindingResult();
-            joiner.add(e.getClass().getName() + ": ");
-            result.getFieldErrors().forEach(
-                    fe -> {
-                        String msg = fe.getDefaultMessage();
-                        if (!msg.startsWith(fe.getField())) {
-                            msg = fe.getField() + ' ' + msg;
-                        }
-                        joiner.add(msg);
-                    });
-        }
-        return joiner.toString();
-    }
+
 
     public static boolean isCanChange(UserTo userTo, UserService userService) {
         Integer userToId = userTo.getId();
         Integer userId = null;
         try {
             userId = userService.getByEmail(userTo.getEmail()).getId();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         if (userToId != null) {
@@ -104,13 +85,15 @@ public class ValidationUtil {
     }
 
     public static boolean isCanSaveTime(Meal validateMeal, MealService mealService) {
-        LocalDateTime ldt = validateMeal.getDateTime();
-        List<Meal> meals = mealService.getAll(AuthorizedUser.id());
+        if (validateMeal.getDateTime()!=null) {
+            LocalDateTime ldt = validateMeal.getDateTime();
+            List<Meal> meals = mealService.getAll(AuthorizedUser.id());
 
-        for (Meal meal : meals) {
-            if (ldt.equals(meal.getDateTime())) {
-                if (validateMeal.getId()==null||!meal.getId().equals(validateMeal.getId()))
-                    return false;
+            for (Meal meal : meals) {
+                if (ldt.equals(meal.getDateTime())) {
+                    if (validateMeal.getId() == null || !meal.getId().equals(validateMeal.getId()))
+                        return false;
+                }
             }
         }
         return true;

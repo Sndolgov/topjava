@@ -2,11 +2,13 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.util.ValidationUtil;
@@ -21,19 +23,21 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
-    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 409
-    @ExceptionHandler(BindException.class)
-    public ErrorInfo bindError(HttpServletRequest req, BindException e) {
-        String cause = ValidationUtil.getDefoultFildes(e);
-        return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, cause);
-
-    }
+    @Autowired
+    private MessageUtil messageUtil;
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 409
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorInfo restError(HttpServletRequest req, MethodArgumentNotValidException e) {
-        String cause = ValidationUtil.getDefoultFildes(e);
-        return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, cause);
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public ErrorInfo bindError(HttpServletRequest req, Exception e) {
+        BindingResult result = e instanceof BindException ?
+                ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();
+
+        String[] details = result.getFieldErrors().stream()
+                .map(fe -> messageUtil.getMessage(fe))
+                .toArray(String[]::new);
+
+        return new ErrorInfo(req.getRequestURL(), ErrorType.VALIDATION_ERROR, details);
+
     }
 
     //  http://stackoverflow.com/a/22358422/548473
@@ -62,7 +66,7 @@ public class ExceptionInfoHandler {
         } else {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
-        return new ErrorInfo(req.getRequestURL(), errorType, rootCause.toString());
+        return new ErrorInfo(req.getRequestURL(), errorType, new String[]{rootCause.toString()});
     }
 
 
